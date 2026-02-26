@@ -1,0 +1,33 @@
+package com.company.scaffold.module.system.entity;
+
+import com.baomidou.mybatisplus.annotation.*;
+import lombok.Data;
+
+import java.time.LocalDateTime;
+
+@Data
+@TableName("sys_role")
+public class SysRole {
+
+    @TableId(type = IdType.AUTO)
+    private Long id;
+
+    private String code;
+
+    private String name;
+
+    private String description;
+
+    @TableField("status")
+    private Integer status;
+
+    @TableLogic
+    @TableField("deleted")
+    private Integer deleted;
+
+    @TableField(fill = FieldFill.INSERT)
+    private LocalDateTime createTime;
+
+    @TableField(fill = FieldFill.INSERT_UPDATE)
+    private LocalDateTime updateTime;
+}

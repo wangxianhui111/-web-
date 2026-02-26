@@ -1,0 +1,67 @@
+package ${packageName}.controller;
+
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.company.scaffold.common.core.result.PageResult;
+import com.company.scaffold.common.core.result.Result;
+import ${packageName}.entity.${className};
+import ${packageName}.service.${className}Service;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequestMapping("${mappingPath}")
+@RequiredArgsConstructor
+@Validated
+@Tag(name = "${tableComment}管理")
+public class ${className}Controller {
+
+    private final ${className}Service ${firstLowerClassName}Service;
+
+    @GetMapping("/page")
+    @Operation(summary = "分页查询${tableComment}")
+    @PreAuthorize("hasAuthority('${moduleName}:${firstLowerClassName}:list')")
+    public Result<PageResult<${className}>> page(
+            @Parameter(description = "当前页码") @RequestParam(defaultValue = "1") Long current,
+            @Parameter(description = "每页大小") @RequestParam(defaultValue = "10") Long size,
+            ${className} query) {
+        IPage<${className}> page = ${firstLowerClassName}Service.page${className}(current, size, query);
+        return Result.success(PageResult.of(page.getRecords(), page.getTotal(), page.getCurrent(), page.getSize()));
+    }
+
+    @GetMapping("/{id}")
+    @Operation(summary = "获取${tableComment}详情")
+    @PreAuthorize("hasAuthority('${moduleName}:${firstLowerClassName}:query')")
+    public Result<${className}> getById(@Parameter(description = "ID") @PathVariable Long id) {
+        return Result.success(${firstLowerClassName}Service.get${className}ById(id));
+    }
+
+    @PostMapping
+    @Operation(summary = "创建${tableComment}")
+    @PreAuthorize("hasAuthority('${moduleName}:${firstLowerClassName}:create')")
+    public Result<Void> create(@Valid @RequestBody ${className} ${firstLowerClassName}) {
+        ${firstLowerClassName}Service.create${className}(${firstLowerClassName});
+        return Result.success();
+    }
+
+    @PutMapping
+    @Operation(summary = "更新${tableComment}")
+    @PreAuthorize("hasAuthority('${moduleName}:${firstLowerClassName}:update')")
+    public Result<Void> update(@Valid @RequestBody ${className} ${firstLowerClassName}) {
+        ${firstLowerClassName}Service.update${className}(${firstLowerClassName});
+        return Result.success();
+    }
+
+    @DeleteMapping("/{id}")
+    @Operation(summary = "删除${tableComment}")
+    @PreAuthorize("hasAuthority('${moduleName}:${firstLowerClassName}:delete')")
+    public Result<Void> delete(@Parameter(description = "ID") @PathVariable Long id) {
+        ${firstLowerClassName}Service.delete${className}(id);
+        return Result.success();
+    }
+}

@@ -1,0 +1,47 @@
+import request from '@/utils/request'
+
+#foreach ($column in $columns)
+#if ($column.primaryKey)
+export function get${className}(id) {
+  return request({
+    url: '${mappingPath}/' + id,
+    method: 'get'
+  })
+}
+#end
+#end
+
+export function list${className}(params) {
+  return request({
+    url: '${mappingPath}/page',
+    method: 'get',
+    params
+  })
+}
+
+export function create${className}(data) {
+  return request({
+    url: '${mappingPath}',
+    method: 'post',
+    data
+  })
+}
+
+export function update${className}(data) {
+  return request({
+    url: '${mappingPath}',
+    method: 'put',
+    data
+  })
+}
+
+#foreach ($column in $columns)
+#if ($column.primaryKey)
+export function delete${className}(id) {
+  return request({
+    url: '${mappingPath}/' + id,
+    method: 'delete'
+  })
+}
+#end
+#end
