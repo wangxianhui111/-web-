@@ -3,584 +3,201 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>用户管理 - 企业级快速开发平台</title>
+    <title>企业级快速开发平台</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
-            background: #f5f7fa;
-        }
-
-        .header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 20px 40px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        .header h1 {
-            font-size: 20px;
-            font-weight: 500;
-        }
-
-        .header-user {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .header-user span {
-            font-size: 14px;
-        }
-
-        .logout-btn {
-            background: rgba(255, 255, 255, 0.2);
-            color: white;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            padding: 8px 16px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 14px;
-            transition: all 0.3s;
-        }
-
-        .logout-btn:hover {
-            background: rgba(255, 255, 255, 0.3);
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 30px auto;
-            padding: 0 20px;
-        }
-
-        .toolbar {
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            display: flex;
-            gap: 10px;
-            align-items: center;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-        }
-
-        .toolbar input {
-            padding: 10px 16px;
-            border: 1px solid #e0e0e0;
-            border-radius: 6px;
-            font-size: 14px;
-            width: 200px;
-        }
-
-        .toolbar input:focus {
-            outline: none;
-            border-color: #667eea;
-        }
-
-        .toolbar button {
-            padding: 10px 20px;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 14px;
-            transition: all 0.3s;
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-        }
-
-        .btn-primary:hover {
-            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
-        }
-
-        .btn-secondary {
-            background: #f5f7fa;
-            color: #666;
-            border: 1px solid #e0e0e0;
-        }
-
-        .btn-secondary:hover {
-            background: #e8ebf0;
-        }
-
-        .table-container {
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-            overflow: hidden;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        th, td {
-            padding: 14px 16px;
-            text-align: left;
-            font-size: 14px;
-        }
-
-        th {
-            background: #f8f9fa;
-            color: #333;
-            font-weight: 600;
-            border-bottom: 2px solid #e0e0e0;
-        }
-
-        td {
-            border-bottom: 1px solid #f0f0f0;
-            color: #666;
-        }
-
-        tr:hover td {
-            background: #f9f9f9;
-        }
-
-        .status-badge {
-            display: inline-block;
-            padding: 4px 12px;
-            border-radius: 12px;
-            font-size: 12px;
-        }
-
-        .status-enabled {
-            background: #e8f5e9;
-            color: #4caf50;
-        }
-
-        .status-disabled {
-            background: #ffebee;
-            color: #f44336;
-        }
-
-        .action-btns {
-            display: flex;
-            gap: 8px;
-        }
-
-        .action-btn {
-            padding: 6px 12px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 12px;
-            transition: all 0.3s;
-        }
-
-        .btn-edit {
-            background: #e3f2fd;
-            color: #2196f3;
-        }
-
-        .btn-edit:hover {
-            background: #bbdefb;
-        }
-
-        .btn-delete {
-            background: #ffebee;
-            color: #f44336;
-        }
-
-        .btn-delete:hover {
-            background: #ffcdd2;
-        }
-
-        .pagination {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-            gap: 8px;
-        }
-
-        .pagination button {
-            padding: 8px 12px;
-            border: 1px solid #e0e0e0;
-            background: white;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .pagination button:hover:not(:disabled) {
-            background: #667eea;
-            color: white;
-            border-color: #667eea;
-        }
-
-        .pagination button:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-
-        .pagination span {
-            font-size: 14px;
-            color: #666;
-        }
-
-        .modal-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: 1000;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .modal-overlay.show {
-            display: flex;
-        }
-
-        .modal {
-            background: white;
-            border-radius: 12px;
-            width: 500px;
-            max-height: 80vh;
-            overflow-y: auto;
-            animation: slideIn 0.3s ease-out;
-        }
-
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: scale(0.9);
-            }
-            to {
-                opacity: 1;
-                transform: scale(1);
-            }
-        }
-
-        .modal-header {
-            padding: 20px;
-            border-bottom: 1px solid #f0f0f0;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .modal-header h3 {
-            font-size: 18px;
-            color: #333;
-        }
-
-        .modal-close {
-            background: none;
-            border: none;
-            font-size: 24px;
-            cursor: pointer;
-            color: #999;
-        }
-
-        .modal-body {
-            padding: 20px;
-        }
-
-        .form-group {
-            margin-bottom: 16px;
-        }
-
-        .form-group label {
-            display: block;
-            font-size: 14px;
-            color: #333;
-            margin-bottom: 8px;
-            font-weight: 500;
-        }
-
-        .form-group input, .form-group select {
-            width: 100%;
-            padding: 10px 14px;
-            border: 1px solid #e0e0e0;
-            border-radius: 6px;
-            font-size: 14px;
-        }
-
-        .form-group input:focus, .form-group select:focus {
-            outline: none;
-            border-color: #667eea;
-        }
-
-        .modal-footer {
-            padding: 20px;
-            border-top: 1px solid #f0f0f0;
-            display: flex;
-            justify-content: flex-end;
-            gap: 10px;
-        }
-
-        .loading {
-            display: inline-block;
-            width: 16px;
-            height: 16px;
-            border: 2px solid #667eea;
-            border-radius: 50%;
-            border-top-color: transparent;
-            animation: spin 0.8s linear infinite;
-            margin-right: 8px;
-            vertical-align: middle;
-        }
-
-        @keyframes spin {
-            to {
-                transform: rotate(360deg);
-            }
-        }
-
-        .empty-data {
-            text-align: center;
-            padding: 60px 20px;
-            color: #999;
-        }
-
-        .empty-data img {
-            width: 200px;
-            margin-bottom: 20px;
-            opacity: 0.5;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f5f7fa; }
+        .app-container { display: flex; height: 100vh; }
+        .sidebar { width: 220px; background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%); color: white; overflow-y: auto; flex-shrink: 0; }
+        .sidebar-header { padding: 20px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .sidebar-header h1 { font-size: 18px; font-weight: 500; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .menu-group { padding: 10px 0; }
+        .menu-group-title { padding: 10px 20px; font-size: 12px; color: rgba(255,255,255,0.4); text-transform: uppercase; }
+        .menu-item { display: flex; align-items: center; padding: 12px 20px; color: rgba(255,255,255,0.7); cursor: pointer; transition: all 0.3s; font-size: 14px; }
+        .menu-item:hover { background: rgba(255,255,255,0.1); color: white; }
+        .menu-item.active { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; }
+        .menu-icon { width: 20px; height: 20px; margin-right: 12px; display: flex; align-items: center; justify-content: center; }
+        .main-content { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+        .header { background: white; padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+        .header-left { display: flex; align-items: center; gap: 20px; }
+        .breadcrumb { font-size: 14px; color: #666; }
+        .breadcrumb span { color: #333; font-weight: 500; }
+        .header-right { display: flex; align-items: center; gap: 20px; }
+        .user-info { display: flex; align-items: center; gap: 10px; }
+        .user-avatar { width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); display: flex; align-items: center; justify-content: center; color: white; font-size: 14px; font-weight: 500; }
+        .user-name { font-size: 14px; color: #333; }
+        .logout-btn { padding: 8px 16px; background: #f5f7fa; color: #666; border: none; border-radius: 6px; cursor: pointer; font-size: 14px; }
+        .logout-btn:hover { background: #e8ebf0; color: #333; }
+        .content-area { flex: 1; padding: 20px; overflow-y: auto; }
+        .module-container { display: none; }
+        .module-container.active { display: block; }
+        .toolbar { background: white; padding: 20px; border-radius: 8px; margin-bottom: 20px; display: flex; gap: 10px; align-items: center; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+        .toolbar input { padding: 10px 16px; border: 1px solid #e0e0e0; border-radius: 6px; font-size: 14px; width: 200px; }
+        .toolbar input:focus { outline: none; border-color: #667eea; }
+        .toolbar button { padding: 10px 20px; border: none; border-radius: 6px; cursor: pointer; font-size: 14px; transition: all 0.3s; }
+        .btn-primary { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; }
+        .btn-primary:hover { box-shadow: 0 4px 12px rgba(102,126,234,0.4); }
+        .btn-secondary { background: #f5f7fa; color: #666; border: 1px solid #e0e0e0; }
+        .btn-secondary:hover { background: #e8ebf0; }
+        .table-container { background: white; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); overflow: hidden; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { padding: 14px 16px; text-align: left; font-size: 14px; }
+        th { background: #f8f9fa; color: #333; font-weight: 600; border-bottom: 2px solid #e0e0e0; }
+        td { border-bottom: 1px solid #f0f0f0; color: #666; }
+        tr:hover td { background: #f9f9f9; }
+        .status-badge { display: inline-block; padding: 4px 12px; border-radius: 12px; font-size: 12px; }
+        .status-enabled { background: #e8f5e9; color: #4caf50; }
+        .status-disabled { background: #ffebee; color: #f44336; }
+        .action-btns { display: flex; gap: 8px; }
+        .action-btn { padding: 6px 12px; border: none; border-radius: 4px; cursor: pointer; font-size: 12px; transition: all 0.3s; }
+        .btn-edit { background: #e3f2fd; color: #2196f3; }
+        .btn-edit:hover { background: #bbdefb; }
+        .btn-delete { background: #ffebee; color: #f44336; }
+        .btn-delete:hover { background: #ffcdd2; }
+        .pagination { display: flex; justify-content: center; align-items: center; padding: 20px; gap: 8px; }
+        .pagination button { padding: 8px 12px; border: 1px solid #e0e0e0; background: white; border-radius: 4px; cursor: pointer; }
+        .pagination button:hover:not(:disabled) { background: #667eea; color: white; border-color: #667eea; }
+        .pagination button:disabled { opacity: 0.5; cursor: not-allowed; }
+        .pagination span { font-size: 14px; color: #666; }
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center; }
+        .modal-overlay.show { display: flex; }
+        .modal { background: white; border-radius: 12px; width: 500px; max-height: 80vh; overflow-y: auto; animation: slideIn 0.3s; }
+        @keyframes slideIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
+        .modal-header { padding: 20px; border-bottom: 1px solid #f0f0f0; display: flex; justify-content: space-between; align-items: center; }
+        .modal-header h3 { font-size: 18px; color: #333; }
+        .modal-close { background: none; border: none; font-size: 24px; cursor: pointer; color: #999; }
+        .modal-body { padding: 20px; }
+        .form-group { margin-bottom: 16px; }
+        .form-group label { display: block; font-size: 14px; color: #333; margin-bottom: 8px; font-weight: 500; }
+        .form-group input, .form-group select { width: 100%; padding: 10px 14px; border: 1px solid #e0e0e0; border-radius: 6px; font-size: 14px; }
+        .form-group input:focus, .form-group select:focus { outline: none; border-color: #667eea; }
+        .modal-footer { padding: 20px; border-top: 1px solid #f0f0f0; display: flex; justify-content: flex-end; gap: 10px; }
+        .empty-data { text-align: center; padding: 60px 20px; color: #999; }
+        .welcome-card { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 12px; padding: 40px; color: white; margin-bottom: 30px; }
+        .welcome-card h2 { font-size: 28px; margin-bottom: 10px; }
+        .welcome-card p { font-size: 16px; opacity: 0.9; }
     </style>
 </head>
 <body>
-    <div class="header">
-        <h1>企业级快速开发平台</h1>
-        <div class="header-user">
-            <span id="welcomeUser">欢迎，admin</span>
-            <button class="logout-btn" onclick="logout()">退出登录</button>
+    <div class="app-container">
+        <div class="sidebar">
+            <div class="sidebar-header"><h1>企业级开发平台</h1></div>
+            <div class="menu-group">
+                <div class="menu-group-title">系统管理</div>
+                <div class="menu-item active" data-module="home"><span class="menu-icon">🏠</span><span>首页</span></div>
+                <div class="menu-item" data-module="user"><span class="menu-icon">👤</span><span>用户管理</span></div>
+            </div>
+        </div>
+        <div class="main-content">
+            <div class="header">
+                <div class="header-left"><div class="breadcrumb">当前位置：<span id="currentModule">首页</span></div></div>
+                <div class="header-right">
+                    <div class="user-info"><div class="user-avatar" id="userAvatar">A</div><span class="user-name" id="userName">admin</span></div>
+                    <button class="logout-btn" onclick="logout()">退出登录</button>
+                </div>
+            </div>
+            <div class="content-area">
+                <div id="home" class="module-container active">
+                    <div class="welcome-card"><h2>欢迎回来，<span id="welcomeName">管理员</span></h2><p>企业级快速开发平台 - 让开发更高效</p></div>
+                </div>
+                <div id="user" class="module-container">
+                    <div class="toolbar">
+                        <input type="text" id="searchUsername" placeholder="搜索用户名...">
+                        <button class="btn-primary" onclick="searchUsers()">搜索</button>
+                        <button class="btn-secondary" onclick="openModal('user')">新增用户</button>
+                    </div>
+                    <div class="table-container">
+                        <table><thead><tr><th>ID</th><th>用户名</th><th>昵称</th><th>邮箱</th><th>手机号</th><th>状态</th><th>创建时间</th><th>操作</th></tr></thead>
+                        <tbody id="userTableBody"><tr><td colspan="8" class="empty-data">加载中...</td></tr></tbody></table>
+                    </div>
+                    <div class="pagination">
+                        <button onclick="prevPage('user')" id="userPrevBtn">上一页</button>
+                        <span id="userPageInfo">第 1 页 / 共 1 页</span>
+                        <button onclick="nextPage('user')" id="userNextBtn">下一页</button>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-
-    <div class="container">
-        <div class="toolbar">
-            <input type="text" id="searchUsername" placeholder="搜索用户名...">
-            <button class="btn-primary" onclick="searchUsers()">搜索</button>
-            <button class="btn-secondary" onclick="openModal()">新增用户</button>
-        </div>
-
-        <div class="table-container">
-            <table>
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>用户名</th>
-                        <th>昵称</th>
-                        <th>邮箱</th>
-                        <th>手机号</th>
-                        <th>状态</th>
-                        <th>创建时间</th>
-                        <th>操作</th>
-                    </tr>
-                </thead>
-                <tbody id="userTableBody">
-                    <tr>
-                        <td colspan="8" class="empty-data">加载中...</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-
-        <div class="pagination">
-            <button onclick="prevPage()" id="prevBtn">上一页</button>
-            <span id="pageInfo">第 1 页 / 共 1 页</span>
-            <button onclick="nextPage()" id="nextBtn">下一页</button>
-        </div>
-    </div>
-
     <div class="modal-overlay" id="userModal">
         <div class="modal">
-            <div class="modal-header">
-                <h3 id="modalTitle">新增用户</h3>
-                <button class="modal-close" onclick="closeModal()">&times;</button>
-            </div>
+            <div class="modal-header"><h3 id="userModalTitle">新增用户</h3><button class="modal-close" onclick="closeModal('user')">&times;</button></div>
             <div class="modal-body">
-                <form id="userForm">
-                    <input type="hidden" id="userId">
-                    <div class="form-group">
-                        <label for="username">用户名</label>
-                        <input type="text" id="username" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="nickname">昵称</label>
-                        <input type="text" id="nickname">
-                    </div>
-                    <div class="form-group">
-                        <label for="email">邮箱</label>
-                        <input type="email" id="email">
-                    </div>
-                    <div class="form-group">
-                        <label for="phone">手机号</label>
-                        <input type="text" id="phone">
-                    </div>
-                    <div class="form-group">
-                        <label for="status">状态</label>
-                        <select id="status">
-                            <option value="1">启用</option>
-                            <option value="0">禁用</option>
-                        </select>
-                    </div>
+                <form id="userForm"><input type="hidden" id="userId">
+                    <div class="form-group"><label for="username">用户名</label><input type="text" id="username" required></div>
+                    <div class="form-group"><label for="nickname">昵称</label><input type="text" id="nickname"></div>
+                    <div class="form-group"><label for="email">邮箱</label><input type="email" id="email"></div>
+                    <div class="form-group"><label for="phone">手机号</label><input type="text" id="phone"></div>
+                    <div class="form-group"><label for="status">状态</label><select id="status"><option value="1">启用</option><option value="0">禁用</option></select></div>
                 </form>
             </div>
-            <div class="modal-footer">
-                <button class="btn-secondary" onclick="closeModal()">取消</button>
-                <button class="btn-primary" onclick="saveUser()">保存</button>
-            </div>
+            <div class="modal-footer"><button class="btn-secondary" onclick="closeModal('user')">取消</button><button class="btn-primary" onclick="saveUser()">保存</button></div>
         </div>
     </div>
-
     <script>
         const API_BASE_URL = 'http://localhost:8080';
-        let currentPage = 1;
-        let pageSize = 10;
-        let totalPages = 1;
-        let isEdit = false;
-
+        let currentUser = localStorage.getItem('username') || 'admin';
         const token = localStorage.getItem('token');
-        if (!token) {
-            window.location.href = 'index.html';
+        if (!token) { window.location.href = 'index.html'; }
+        document.getElementById('userName').textContent = currentUser;
+        document.getElementById('welcomeName').textContent = currentUser;
+        document.getElementById('userAvatar').textContent = currentUser.charAt(0).toUpperCase();
+        const modulePages = { user: { current: 1, total: 1, size: 10 } };
+        const moduleNames = { home: '首页', user: '用户管理' };
+        function getHeaders() { return { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' }; }
+        document.querySelectorAll('.menu-item').forEach(item => { item.addEventListener('click', function() { switchModule(this.dataset.module); }); });
+        function switchModule(module) {
+            document.querySelectorAll('.menu-item').forEach(item => { item.classList.remove('active'); });
+            document.querySelector(`.menu-item[data-module="${module}"]`).classList.add('active');
+            document.querySelectorAll('.module-container').forEach(c => c.classList.remove('active'));
+            document.getElementById(module).classList.add('active');
+            document.getElementById('currentModule').textContent = moduleNames[module];
+            if (module === 'user') loadUsers();
         }
-
-        document.getElementById('welcomeUser').textContent = `欢迎，localStorage.getItem('username') || 'admin'`;
-
-        function getHeaders() {
-            return {
-                'Authorization': `Bearer ${token}`,
-                'Content-Type': 'application/json'
-            };
-        }
-
         async function loadUsers() {
+            const page = modulePages.user;
             const username = document.getElementById('searchUsername').value;
             const tbody = document.getElementById('userTableBody');
-
             try {
-                const url = `${API_BASE_URL}/system/user/page?current=${currentPage}&size=${pageSize}${username ? '&username=' + encodeURIComponent(username) : ''}`;
-                const response = await fetch(url, {
-                    method: 'GET',
-                    headers: getHeaders()
-                });
-
+                const url = `${API_BASE_URL}/system/user/page?current=${page.current}&size=${page.size}${username ? '&username=' + encodeURIComponent(username) : ''}`;
+                const response = await fetch(url, { headers: getHeaders() });
                 const result = await response.json();
-
                 if (result.code === 200) {
                     const { records, pages, current } = result.data;
-                    totalPages = pages;
-                    currentPage = current;
-
+                    page.total = pages; page.current = current;
                     if (records && records.length > 0) {
-                        tbody.innerHTML = records.map(user => `
-                            <tr>
-                                <td>${user.id}</td>
-                                <td>${user.username || ''}</td>
-                                <td>${user.nickname || ''}</td>
-                                <td>${user.email || ''}</td>
-                                <td>${user.phone || ''}</td>
-                                <td>
-                                    <span class="status-badge ${user.status === 1 ? 'status-enabled' : 'status-disabled'}">
-                                        ${user.status === 1 ? '启用' : '禁用'}
-                                    </span>
-                                </td>
-                                <td>${formatDate(user.createTime)}</td>
-                                <td>
-                                    <div class="action-btns">
-                                        <button class="action-btn btn-edit" onclick="editUser(${user.id})">编辑</button>
-                                        <button class="action-btn btn-delete" onclick="deleteUser(${user.id})">删除</button>
-                                    </div>
-                                </td>
-                            </tr>
-                        `).join('');
-                    } else {
-                        tbody.innerHTML = '<tr><td colspan="8" class="empty-data">暂无数据</td></tr>';
-                    }
-
-                    updatePagination();
-                } else if (result.code === 401) {
-                    logout();
-                } else {
-                    tbody.innerHTML = `<tr><td colspan="8" class="empty-data">${result.message || '加载失败'}</td></tr>`;
+                        tbody.innerHTML = records.map(user => `<tr><td>${user.id}</td><td>${user.username || ''}</td><td>${user.nickname || ''}</td><td>${user.email || ''}</td><td>${user.phone || ''}</td><td><span class="status-badge ${user.status === 1 ? 'status-enabled' : 'status-disabled'}">${user.status === 1 ? '启用' : '禁用'}</span></td><td>${formatDate(user.createTime)}</td><td><div class="action-btns"><button class="action-btn btn-edit" onclick="editUser(${user.id})">编辑</button><button class="action-btn btn-delete" onclick="deleteUser(${user.id})">删除</button></div></td></tr>`).join('');
+                    } else { tbody.innerHTML = '<tr><td colspan="8" class="empty-data">暂无数据</td></tr>'; }
+                    updatePagination('user');
                 }
-            } catch (error) {
-                console.error('加载用户失败:', error);
-                tbody.innerHTML = '<tr><td colspan="8" class="empty-data">网络错误，请稍后重试</td></tr>';
-            }
+            } catch (error) { console.error('加载用户失败:', error); tbody.innerHTML = '<tr><td colspan="8" class="empty-data">加载失败</td></tr>'; }
         }
-
-        function formatDate(dateStr) {
-            if (!dateStr) return '-';
-            const date = new Date(dateStr);
-            return date.toLocaleString('zh-CN', {
-                year: 'numeric',
-                month: '2-digit',
-                day: '2-digit',
-                hour: '2-digit',
-                minute: '2-digit'
-            });
+        function updatePagination(module) {
+            const page = modulePages[module];
+            document.getElementById(`${module}PageInfo`).textContent = `第 ${page.current} 页 / 共 ${page.total} 页`;
+            document.getElementById(`${module}PrevBtn`).disabled = page.current <= 1;
+            document.getElementById(`${module}NextBtn`).disabled = page.current >= page.total;
         }
-
-        function updatePagination() {
-            document.getElementById('pageInfo').textContent = `第 ${currentPage} 页 / 共 ${totalPages} 页`;
-            document.getElementById('prevBtn').disabled = currentPage <= 1;
-            document.getElementById('nextBtn').disabled = currentPage >= totalPages;
-        }
-
-        function prevPage() {
-            if (currentPage > 1) {
-                currentPage--;
-                loadUsers();
-            }
-        }
-
-        function nextPage() {
-            if (currentPage < totalPages) {
-                currentPage++;
-                loadUsers();
-            }
-        }
-
-        function searchUsers() {
-            currentPage = 1;
-            loadUsers();
-        }
-
-        function openModal(userId = null) {
-            isEdit = !!userId;
-            document.getElementById('userModal').classList.add('show');
-            document.getElementById('modalTitle').textContent = isEdit ? '编辑用户' : '新增用户';
-
-            if (!isEdit) {
-                document.getElementById('userForm').reset();
-                document.getElementById('userId').value = '';
-            }
-        }
-
-        function closeModal() {
-            document.getElementById('userModal').classList.remove('show');
-            document.getElementById('userForm').reset();
-        }
-
-        async function editUser(userId) {
+        function prevPage(module) { if (modulePages[module].current > 1) { modulePages[module].current--; loadUsers(); } }
+        function nextPage(module) { if (modulePages[module].current < modulePages[module].total) { modulePages[module].current++; loadUsers(); } }
+        function searchUsers() { modulePages.user.current = 1; loadUsers(); }
+        function openModal(module, id = null) { document.getElementById(`${module}Modal`).classList.add('show'); document.getElementById(`${module}ModalTitle`).textContent = id ? '编辑' : '新增'; if (!id) { document.getElementById(`${module}Form`).reset(); document.getElementById(`${module}Id`).value = ''; } }
+        function closeModal(module) { document.getElementById(`${module}Modal`).classList.remove('show'); }
+        async function saveUser() {
+            const userId = document.getElementById('userId').value;
+            const userData = { username: document.getElementById('username').value, nickname: document.getElementById('nickname').value, email: document.getElementById('email').value, phone: document.getElementById('phone').value, status: parseInt(document.getElementById('status').value) };
             try {
-                const response = await fetch(`${API_BASE_URL}/system/user/${userId}`, {
-                    method: 'GET',
-                    headers: getHeaders()
-                });
-
+                const url = userId ? `${API_BASE_URL}/system/user/${userId}` : `${API_BASE_URL}/system/user`;
+                const method = userId ? 'PUT' : 'POST';
+                const response = await fetch(url, { method: method, headers: getHeaders(), body: JSON.stringify(userData) });
                 const result = await response.json();
-
+                if (result.code === 200) { closeModal('user'); loadUsers(); } else { alert(result.message || '操作失败'); }
+            } catch (error) { console.error('保存用户失败:', error); alert('网络错误'); }
+        }
+        async function editUser(id) {
+            try {
+                const response = await fetch(`${API_BASE_URL}/system/user/${id}`, { headers: getHeaders() });
+                const result = await response.json();
                 if (result.code === 200) {
                     const user = result.data;
                     document.getElementById('userId').value = user.id;
@@ -589,91 +206,13 @@
                     document.getElementById('email').value = user.email || '';
                     document.getElementById('phone').value = user.phone || '';
                     document.getElementById('status').value = user.status;
-                    openModal(user.id);
-                } else {
-                    alert(result.message || '获取用户信息失败');
+                    openModal('user', id);
                 }
-            } catch (error) {
-                console.error('获取用户信息失败:', error);
-                alert('网络错误，请稍后重试');
-            }
+            } catch (error) { console.error('获取用户信息失败:', error); }
         }
-
-        async function saveUser() {
-            const userId = document.getElementById('userId').value;
-            const username = document.getElementById('username').value.trim();
-            const nickname = document.getElementById('nickname').value.trim();
-            const email = document.getElementById('email').value.trim();
-            const phone = document.getElementById('phone').value.trim();
-            const status = parseInt(document.getElementById('status').value);
-
-            if (!username) {
-                alert('请输入用户名');
-                return;
-            }
-
-            const userData = { username, nickname, email, phone, status };
-
-            try {
-                const url = userId
-                    ? `${API_BASE_URL}/system/user/${userId}`
-                    : `${API_BASE_URL}/system/user`;
-                const method = userId ? 'PUT' : 'POST';
-
-                const response = await fetch(url, {
-                    method: method,
-                    headers: getHeaders(),
-                    body: JSON.stringify(userData)
-                });
-
-                const result = await response.json();
-
-                if (result.code === 200) {
-                    closeModal();
-                    loadUsers();
-                    alert(userId ? '用户更新成功' : '用户创建成功');
-                } else {
-                    alert(result.message || '操作失败');
-                }
-            } catch (error) {
-                console.error('保存用户失败:', error);
-                alert('网络错误，请稍后重试');
-            }
-        }
-
-        async function deleteUser(userId) {
-            if (!confirm('确定要删除该用户吗？')) {
-                return;
-            }
-
-            try {
-                const response = await fetch(`${API_BASE_URL}/system/user/${userId}`, {
-                    method: 'DELETE',
-                    headers: getHeaders()
-                });
-
-                const result = await response.json();
-
-                if (result.code === 200) {
-                    loadUsers();
-                    alert('删除成功');
-                } else {
-                    alert(result.message || '删除失败');
-                }
-            } catch (error) {
-                console.error('删除用户失败:', error);
-                alert('网络错误，请稍后重试');
-            }
-        }
-
-        function logout() {
-            localStorage.removeItem('token');
-            localStorage.removeItem('username');
-            localStorage.removeItem('userId');
-            window.location.href = 'index.html';
-        }
-
-        loadUsers();
+        async function deleteUser(id) { if (!confirm('确定要删除该用户吗？')) return; try { const response = await fetch(`${API_BASE_URL}/system/user/${id}`, { method: 'DELETE', headers: getHeaders() }); const result = await response.json(); if (result.code === 200) { loadUsers(); } else { alert(result.message || '删除失败'); } } catch (error) { console.error('删除用户失败:', error); } }
+        function formatDate(dateStr) { if (!dateStr) return '-'; const date = new Date(dateStr); return date.toLocaleString('zh-CN', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' }); }
+        function logout() { localStorage.removeItem('token'); localStorage.removeItem('username'); localStorage.removeItem('userId'); window.location.href = 'index.html'; }
     </script>
 </body>
 </html>

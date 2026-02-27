@@ -51,5 +51,41 @@ generator:
 logging:
   pattern:
     console: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n"
   file:
     name: logs/scaffold.log
+  level:
+    root: info
+    com.company.scaffold: debug
+
+# ELK Stack 日志配置
+logstash:
+  host: logstash
+  port: 5044
+
+# Actuator 配置
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
+    info:
+      enabled: true
+    metrics:
+      enabled: true
+    prometheus:
+      enabled: true
+
+# Micrometer 监控配置
+metrics:
+  tags:
+    application: ${spring.application.name}
+  export:
+    prometheus:
+      enabled: true
+    elastic:
+      enabled: true
+      host: http://elasticsearch:9200
