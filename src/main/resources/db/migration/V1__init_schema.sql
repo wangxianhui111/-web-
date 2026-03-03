@@ -75,7 +75,7 @@ CREATE TABLE IF NOT EXISTS `sys_role_menu` (
 
 # 初始化超级管理员用户 (密码: 123456)
 INSERT INTO `sys_user` (`id`, `username`, `password`, `nickname`, `email`, `status`, `deleted`)
-VALUES (1, 'admin', '$2a$10$JEC/3OCqKQehfUCYmaYJJ.1MqsC6yE.z5YqzWwLQ8lWz7p.fWqGVy', '超级管理员', 'admin@company.com', 1, 0);
+VALUES (1, 'admin', '$2a$10$EixZaYVK1fsbw1ZfbX3OXePaWxn96p36WQoeG6Lruj3vjPGga31lW', '超级管理员', 'admin@company.com', 1, 0);
 
 # 初始化角色
 INSERT INTO `sys_role` (`id`, `code`, `name`, `description`, `status`)

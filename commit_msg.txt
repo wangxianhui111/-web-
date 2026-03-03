@@ -1,0 +1,2 @@
+feat: add auto-update scripts
+1
