@@ -1,6 +1,6 @@
 # 企业级 Java 快速开发基座项目 (Scaffold)
 
-> Enterprise Java Quick Development Base Project
+> 企业级 Java 快速开发基础模板
 
 ## 项目简介
 
