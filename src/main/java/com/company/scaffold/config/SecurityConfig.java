@@ -68,6 +68,7 @@ public class SecurityConfig {
                                 "/",
                                 "/index.html",
                                 "/static/**",
+                                "/user-management.html",
                                 "/actuator/**"
                         ).permitAll()
                         .anyRequest().authenticated()

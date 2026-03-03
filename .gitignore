@@ -21,6 +21,7 @@ buildNumber.properties
 .vscode/
 *.swp
 # Logs
+logs/
 logs*.swo
 
 /

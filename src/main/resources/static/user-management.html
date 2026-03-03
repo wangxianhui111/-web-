@@ -23,7 +23,6 @@
         .breadcrumb { font-size: 14px; color: #666; }
         .breadcrumb span { color: #333; font-weight: 500; }
         .header-right { display: flex; align-items: center; gap: 20px; }
-        .user-info { display: flex; align-items: center; gap: 10px; }
         .user-avatar { width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); display: flex; align-items: center; justify-content: center; color: white; font-size: 14px; font-weight: 500; }
         .user-name { font-size: 14px; color: #333; }
         .logout-btn { padding: 8px 16px; background: #f5f7fa; color: #666; border: none; border-radius: 6px; cursor: pointer; font-size: 14px; }
@@ -86,13 +85,17 @@
                 <div class="menu-group-title">系统管理</div>
                 <div class="menu-item active" data-module="home"><span class="menu-icon">🏠</span><span>首页</span></div>
                 <div class="menu-item" data-module="user"><span class="menu-icon">👤</span><span>用户管理</span></div>
+                <div class="menu-item" data-module="role"><span class="menu-icon">🔐</span><span>角色管理</span></div>
+                <div class="menu-item" data-module="menu"><span class="menu-icon">📋</span><span>菜单管理</span></div>
+                <div class="menu-item" data-module="dept"><span class="menu-icon">🏢</span><span>部门管理</span></div>
+                <div class="menu-item" data-module="post"><span class="menu-icon">💼</span><span>岗位管理</span></div>
             </div>
         </div>
         <div class="main-content">
             <div class="header">
                 <div class="header-left"><div class="breadcrumb">当前位置：<span id="currentModule">首页</span></div></div>
                 <div class="header-right">
-                    <div class="user-info"><div class="user-avatar" id="userAvatar">A</div><span class="user-name" id="userName">admin</span></div>
+                    <div class="user-avatar" id="userAvatar">A</div><span class="user-name" id="userName">admin</span>
                     <button class="logout-btn" onclick="logout()">退出登录</button>
                 </div>
             </div>
@@ -101,20 +104,29 @@
                     <div class="welcome-card"><h2>欢迎回来，<span id="welcomeName">管理员</span></h2><p>企业级快速开发平台 - 让开发更高效</p></div>
                 </div>
                 <div id="user" class="module-container">
-                    <div class="toolbar">
-                        <input type="text" id="searchUsername" placeholder="搜索用户名...">
-                        <button class="btn-primary" onclick="searchUsers()">搜索</button>
-                        <button class="btn-secondary" onclick="openModal('user')">新增用户</button>
-                    </div>
-                    <div class="table-container">
-                        <table><thead><tr><th>ID</th><th>用户名</th><th>昵称</th><th>邮箱</th><th>手机号</th><th>状态</th><th>创建时间</th><th>操作</th></tr></thead>
-                        <tbody id="userTableBody"><tr><td colspan="8" class="empty-data">加载中...</td></tr></tbody></table>
-                    </div>
-                    <div class="pagination">
-                        <button onclick="prevPage('user')" id="userPrevBtn">上一页</button>
-                        <span id="userPageInfo">第 1 页 / 共 1 页</span>
-                        <button onclick="nextPage('user')" id="userNextBtn">下一页</button>
-                    </div>
+                    <div class="toolbar"><input type="text" id="searchUsername" placeholder="搜索用户名..."><button class="btn-primary" onclick="searchUsers()">搜索</button><button class="btn-secondary" onclick="openModal('user')">新增用户</button></div>
+                    <div class="table-container"><table><thead><tr><th>ID</th><th>用户名</th><th>昵称</th><th>邮箱</th><th>手机号</th><th>状态</th><th>创建时间</th><th>操作</th></tr></thead><tbody id="userTableBody"><tr><td colspan="8" class="empty-data">加载中...</td></tr></tbody></table></div>
+                    <div class="pagination"><button onclick="prevPage('user')" id="userPrevBtn">上一页</button><span id="userPageInfo">第 1 页 / 共 1 页</span><button onclick="nextPage('user')" id="userNextBtn">下一页</button></div>
+                </div>
+                <div id="role" class="module-container">
+                    <div class="toolbar"><input type="text" id="searchRoleName" placeholder="搜索角色名称..."><button class="btn-primary" onclick="searchRoles()">搜索</button><button class="btn-secondary" onclick="openModal('role')">新增角色</button></div>
+                    <div class="table-container"><table><thead><tr><th>ID</th><th>角色编码</th><th>角色名称</th><th>描述</th><th>状态</th><th>创建时间</th><th>操作</th></tr></thead><tbody id="roleTableBody"><tr><td colspan="7" class="empty-data">加载中...</td></tr></tbody></table></div>
+                    <div class="pagination"><button onclick="prevPage('role')" id="rolePrevBtn">上一页</button><span id="rolePageInfo">第 1 页 / 共 1 页</span><button onclick="nextPage('role')" id="roleNextBtn">下一页</button></div>
+                </div>
+                <div id="menu" class="module-container">
+                    <div class="toolbar"><input type="text" id="searchMenuName" placeholder="搜索菜单名称..."><button class="btn-primary" onclick="searchMenus()">搜索</button><button class="btn-secondary" onclick="openModal('menu')">新增菜单</button></div>
+                    <div class="table-container"><table><thead><tr><th>ID</th><th>菜单名称</th><th>路由路径</th><th>组件</th><th>权限标识</th><th>类型</th><th>排序</th><th>操作</th></tr></thead><tbody id="menuTableBody"><tr><td colspan="8" class="empty-data">加载中...</td></tr></tbody></table></div>
+                    <div class="pagination"><button onclick="prevPage('menu')" id="menuPrevBtn">上一页</button><span id="menuPageInfo">第 1 页 / 共 1 页</span><button onclick="nextPage('menu')" id="menuNextBtn">下一页</button></div>
+                </div>
+                <div id="dept" class="module-container">
+                    <div class="toolbar"><input type="text" id="searchDeptName" placeholder="搜索部门名称..."><button class="btn-primary" onclick="searchDepts()">搜索</button><button class="btn-secondary" onclick="openModal('dept')">新增部门</button></div>
+                    <div class="table-container"><table><thead><tr><th>ID</th><th>部门名称</th><th>负责人</th><th>联系电话</th><th>邮箱</th><th>状态</th><th>操作</th></tr></thead><tbody id="deptTableBody"><tr><td colspan="7" class="empty-data">加载中...</td></tr></tbody></table></div>
+                    <div class="pagination"><button onclick="prevPage('dept')" id="deptPrevBtn">上一页</button><span id="deptPageInfo">第 1 页 / 共 1 页</span><button onclick="nextPage('dept')" id="deptNextBtn">下一页</button></div>
+                </div>
+                <div id="post" class="module-container">
+                    <div class="toolbar"><input type="text" id="searchPostName" placeholder="搜索岗位名称..."><button class="btn-primary" onclick="searchPosts()">搜索</button><button class="btn-secondary" onclick="openModal('post')">新增岗位</button></div>
+                    <div class="table-container"><table><thead><tr><th>ID</th><th>岗位编码</th><th>岗位名称</th><th>描述</th><th>状态</th><th>创建时间</th><th>操作</th></tr></thead><tbody id="postTableBody"><tr><td colspan="7" class="empty-data">加载中...</td></tr></tbody></table></div>
+                    <div class="pagination"><button onclick="prevPage('post')" id="postPrevBtn">上一页</button><span id="postPageInfo">第 1 页 / 共 1 页</span><button onclick="nextPage('post')" id="postNextBtn">下一页</button></div>
                 </div>
             </div>
         </div>
@@ -124,26 +136,84 @@
             <div class="modal-header"><h3 id="userModalTitle">新增用户</h3><button class="modal-close" onclick="closeModal('user')">&times;</button></div>
             <div class="modal-body">
                 <form id="userForm"><input type="hidden" id="userId">
-                    <div class="form-group"><label for="username">用户名</label><input type="text" id="username" required></div>
-                    <div class="form-group"><label for="nickname">昵称</label><input type="text" id="nickname"></div>
-                    <div class="form-group"><label for="email">邮箱</label><input type="email" id="email"></div>
-                    <div class="form-group"><label for="phone">手机号</label><input type="text" id="phone"></div>
-                    <div class="form-group"><label for="status">状态</label><select id="status"><option value="1">启用</option><option value="0">禁用</option></select></div>
+                    <div class="form-group"><label>用户名</label><input type="text" id="username" required></div>
+                    <div class="form-group"><label>昵称</label><input type="text" id="nickname"></div>
+                    <div class="form-group"><label>邮箱</label><input type="email" id="email"></div>
+                    <div class="form-group"><label>手机号</label><input type="text" id="phone"></div>
+                    <div class="form-group"><label>状态</label><select id="status"><option value="1">启用</option><option value="0">禁用</option></select></div>
                 </form>
             </div>
             <div class="modal-footer"><button class="btn-secondary" onclick="closeModal('user')">取消</button><button class="btn-primary" onclick="saveUser()">保存</button></div>
         </div>
     </div>
+    <div class="modal-overlay" id="roleModal">
+        <div class="modal">
+            <div class="modal-header"><h3 id="roleModalTitle">新增角色</h3><button class="modal-close" onclick="closeModal('role')">&times;</button></div>
+            <div class="modal-body">
+                <form id="roleForm"><input type="hidden" id="roleId">
+                    <div class="form-group"><label>角色编码</label><input type="text" id="roleCode" required></div>
+                    <div class="form-group"><label>角色名称</label><input type="text" id="roleName" required></div>
+                    <div class="form-group"><label>描述</label><input type="text" id="roleDescription"></div>
+                    <div class="form-group"><label>状态</label><select id="roleStatus"><option value="1">启用</option><option value="0">禁用</option></select></div>
+                </form>
+            </div>
+            <div class="modal-footer"><button class="btn-secondary" onclick="closeModal('role')">取消</button><button class="btn-primary" onclick="saveRole()">保存</button></div>
+        </div>
+    </div>
+    <div class="modal-overlay" id="menuModal">
+        <div class="modal">
+            <div class="modal-header"><h3 id="menuModalTitle">新增菜单</h3><button class="modal-close" onclick="closeModal('menu')">&times;</button></div>
+            <div class="modal-body">
+                <form id="menuForm"><input type="hidden" id="menuId">
+                    <div class="form-group"><label>菜单名称</label><input type="text" id="menuName" required></div>
+                    <div class="form-group"><label>路由路径</label><input type="text" id="menuPath"></div>
+                    <div class="form-group"><label>组件</label><input type="text" id="menuComponent"></div>
+                    <div class="form-group"><label>权限标识</label><input type="text" id="menuPermission"></div>
+                    <div class="form-group"><label>排序</label><input type="number" id="menuSort" value="0"></div>
+                </form>
+            </div>
+            <div class="modal-footer"><button class="btn-secondary" onclick="closeModal('menu')">取消</button><button class="btn-primary" onclick="saveMenu()">保存</button></div>
+        </div>
+    </div>
+    <div class="modal-overlay" id="deptModal">
+        <div class="modal">
+            <div class="modal-header"><h3 id="deptModalTitle">新增部门</h3><button class="modal-close" onclick="closeModal('dept')">&times;</button></div>
+            <div class="modal-body">
+                <form id="deptForm"><input type="hidden" id="deptId">
+                    <div class="form-group"><label>部门名称</label><input type="text" id="deptName" required></div>
+                    <div class="form-group"><label>负责人</label><input type="text" id="deptLeader"></div>
+                    <div class="form-group"><label>联系电话</label><input type="text" id="deptPhone"></div>
+                    <div class="form-group"><label>邮箱</label><input type="email" id="deptEmail"></div>
+                    <div class="form-group"><label>状态</label><select id="deptStatus"><option value="1">启用</option><option value="0">禁用</option></select></div>
+                </form>
+            </div>
+            <div class="modal-footer"><button class="btn-secondary" onclick="closeModal('dept')">取消</button><button class="btn-primary" onclick="saveDept()">保存</button></div>
+        </div>
+    </div>
+    <div class="modal-overlay" id="postModal">
+        <div class="modal">
+            <div class="modal-header"><h3 id="postModalTitle">新增岗位</h3><button class="modal-close" onclick="closeModal('post')">&times;</button></div>
+            <div class="modal-body">
+                <form id="postForm"><input type="hidden" id="postId">
+                    <div class="form-group"><label>岗位编码</label><input type="text" id="postCode" required></div>
+                    <div class="form-group"><label>岗位名称</label><input type="text" id="postName" required></div>
+                    <div class="form-group"><label>描述</label><input type="text" id="postDescription"></div>
+                    <div class="form-group"><label>状态</label><select id="postStatus"><option value="1">启用</option><option value="0">禁用</option></select></div>
+                </form>
+            </div>
+            <div class="modal-footer"><button class="btn-secondary" onclick="closeModal('post')">取消</button><button class="btn-primary" onclick="savePost()">保存</button></div>
+        </div>
+    </div>
     <script>
         const API_BASE_URL = 'http://localhost:8080';
-        let currentUser = localStorage.getItem('username') || 'admin';
         const token = localStorage.getItem('token');
         if (!token) { window.location.href = 'index.html'; }
+        const currentUser = localStorage.getItem('username') || 'admin';
         document.getElementById('userName').textContent = currentUser;
         document.getElementById('welcomeName').textContent = currentUser;
         document.getElementById('userAvatar').textContent = currentUser.charAt(0).toUpperCase();
-        const modulePages = { user: { current: 1, total: 1, size: 10 } };
-        const moduleNames = { home: '首页', user: '用户管理' };
+        const modulePages = { user: {current:1,total:1,size:10}, role: {current:1,total:1,size:10}, menu: {current:1,total:1,size:10}, dept: {current:1,total:1,size:10}, post: {current:1,total:1,size:10} };
+        const moduleNames = { home:'首页', user:'用户管理', role:'角色管理', menu:'菜单管理', dept:'部门管理', post:'岗位管理' };
         function getHeaders() { return { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' }; }
         document.querySelectorAll('.menu-item').forEach(item => { item.addEventListener('click', function() { switchModule(this.dataset.module); }); });
         function switchModule(module) {
@@ -153,66 +223,141 @@
             document.getElementById(module).classList.add('active');
             document.getElementById('currentModule').textContent = moduleNames[module];
             if (module === 'user') loadUsers();
+            else if (module === 'role') loadRoles();
+            else if (module === 'menu') loadMenus();
+            else if (module === 'dept') loadDepts();
+            else if (module === 'post') loadPosts();
         }
         async function loadUsers() {
-            const page = modulePages.user;
-            const username = document.getElementById('searchUsername').value;
-            const tbody = document.getElementById('userTableBody');
+            const p = modulePages.user, tbody = document.getElementById('userTableBody');
             try {
-                const url = `${API_BASE_URL}/system/user/page?current=${page.current}&size=${page.size}${username ? '&username=' + encodeURIComponent(username) : ''}`;
-                const response = await fetch(url, { headers: getHeaders() });
-                const result = await response.json();
+                const url = `${API_BASE_URL}/system/user/page?current=${p.current}&size=${p.size}`;
+                const res = await fetch(url, { headers: getHeaders() });
+                const result = await res.json();
                 if (result.code === 200) {
-                    const { records, pages, current } = result.data;
-                    page.total = pages; page.current = current;
-                    if (records && records.length > 0) {
-                        tbody.innerHTML = records.map(user => `<tr><td>${user.id}</td><td>${user.username || ''}</td><td>${user.nickname || ''}</td><td>${user.email || ''}</td><td>${user.phone || ''}</td><td><span class="status-badge ${user.status === 1 ? 'status-enabled' : 'status-disabled'}">${user.status === 1 ? '启用' : '禁用'}</span></td><td>${formatDate(user.createTime)}</td><td><div class="action-btns"><button class="action-btn btn-edit" onclick="editUser(${user.id})">编辑</button><button class="action-btn btn-delete" onclick="deleteUser(${user.id})">删除</button></div></td></tr>`).join('');
-                    } else { tbody.innerHTML = '<tr><td colspan="8" class="empty-data">暂无数据</td></tr>'; }
+                    p.total = result.data.pages; p.current = result.data.current;
+                    tbody.innerHTML = result.data.records.length ? result.data.records.map(u => `<tr><td>${u.id}</td><td>${u.username||''}</td><td>${u.nickname||''}</td><td>${u.email||''}</td><td>${u.phone||''}</td><td><span class="status-badge ${u.status===1?'status-enabled':'status-disabled'}">${u.status===1?'启用':'禁用'}</span></td><td>${formatDate(u.createTime)}</td><td><div class="action-btns"><button class="action-btn btn-edit" onclick="editUser(${u.id})">编辑</button><button class="action-btn btn-delete" onclick="deleteUser(${u.id})">删除</button></div></td></tr>`).join('') : '<tr><td colspan="8" class="empty-data">暂无数据</td></tr>';
                     updatePagination('user');
                 }
-            } catch (error) { console.error('加载用户失败:', error); tbody.innerHTML = '<tr><td colspan="8" class="empty-data">加载失败</td></tr>'; }
+            } catch(e) { tbody.innerHTML = '<tr><td colspan="8" class="empty-data">加载失败</td></tr>'; }
         }
-        function updatePagination(module) {
-            const page = modulePages[module];
-            document.getElementById(`${module}PageInfo`).textContent = `第 ${page.current} 页 / 共 ${page.total} 页`;
-            document.getElementById(`${module}PrevBtn`).disabled = page.current <= 1;
-            document.getElementById(`${module}NextBtn`).disabled = page.current >= page.total;
-        }
-        function prevPage(module) { if (modulePages[module].current > 1) { modulePages[module].current--; loadUsers(); } }
-        function nextPage(module) { if (modulePages[module].current < modulePages[module].total) { modulePages[module].current++; loadUsers(); } }
-        function searchUsers() { modulePages.user.current = 1; loadUsers(); }
-        function openModal(module, id = null) { document.getElementById(`${module}Modal`).classList.add('show'); document.getElementById(`${module}ModalTitle`).textContent = id ? '编辑' : '新增'; if (!id) { document.getElementById(`${module}Form`).reset(); document.getElementById(`${module}Id`).value = ''; } }
-        function closeModal(module) { document.getElementById(`${module}Modal`).classList.remove('show'); }
-        async function saveUser() {
-            const userId = document.getElementById('userId').value;
-            const userData = { username: document.getElementById('username').value, nickname: document.getElementById('nickname').value, email: document.getElementById('email').value, phone: document.getElementById('phone').value, status: parseInt(document.getElementById('status').value) };
+        async function loadRoles() {
+            const p = modulePages.role, tbody = document.getElementById('roleTableBody');
             try {
-                const url = userId ? `${API_BASE_URL}/system/user/${userId}` : `${API_BASE_URL}/system/user`;
-                const method = userId ? 'PUT' : 'POST';
-                const response = await fetch(url, { method: method, headers: getHeaders(), body: JSON.stringify(userData) });
-                const result = await response.json();
-                if (result.code === 200) { closeModal('user'); loadUsers(); } else { alert(result.message || '操作失败'); }
-            } catch (error) { console.error('保存用户失败:', error); alert('网络错误'); }
+                const url = `${API_BASE_URL}/system/role/page?current=${p.current}&size=${p.size}`;
+                const res = await fetch(url, { headers: getHeaders() });
+                const result = await res.json();
+                if (result.code === 200) {
+                    p.total = result.data.pages; p.current = result.data.current;
+                    tbody.innerHTML = result.data.records.length ? result.data.records.map(r => `<tr><td>${r.id}</td><td>${r.code||''}</td><td>${r.name||''}</td><td>${r.description||''}</td><td><span class="status-badge ${r.status===1?'status-enabled':'status-disabled'}">${r.status===1?'启用':'禁用'}</span></td><td>${formatDate(r.createTime)}</td><td><div class="action-btns"><button class="action-btn btn-edit" onclick="editRole(${r.id})">编辑</button><button class="action-btn btn-delete" onclick="deleteRole(${r.id})">删除</button></div></td></tr>`).join('') : '<tr><td colspan="7" class="empty-data">暂无数据</td></tr>';
+                    updatePagination('role');
+                }
+            } catch(e) { tbody.innerHTML = '<tr><td colspan="7" class="empty-data">加载失败</td></tr>'; }
+        }
+        async function loadMenus() {
+            const p = modulePages.menu, tbody = document.getElementById('menuTableBody');
+            try {
+                const url = `${API_BASE_URL}/system/menu/page?current=${p.current}&size=${p.size}`;
+                const res = await fetch(url, { headers: getHeaders() });
+                const result = await res.json();
+                const typeMap = {1:'目录',2:'菜单',3:'按钮'};
+                if (result.code === 200) {
+                    p.total = result.data.pages; p.current = result.data.current;
+                    tbody.innerHTML = result.data.records.length ? result.data.records.map(m => `<tr><td>${m.id}</td><td>${m.name||''}</td><td>${m.path||''}</td><td>${m.component||''}</td><td>${m.permission||''}</td><td>${typeMap[m.menuType]||''}</td><td>${m.sort||0}</td><td><div class="action-btns"><button class="action-btn btn-edit" onclick="editMenu(${m.id})">编辑</button><button class="action-btn btn-delete" onclick="deleteMenu(${m.id})">删除</button></div></td></tr>`).join('') : '<tr><td colspan="8" class="empty-data">暂无数据</td></tr>';
+                    updatePagination('menu');
+                }
+            } catch(e) { tbody.innerHTML = '<tr><td colspan="8" class="empty-data">加载失败</td></tr>'; }
+        }
+        async function loadDepts() {
+            const p = modulePages.dept, tbody = document.getElementById('deptTableBody');
+            try {
+                const url = `${API_BASE_URL}/system/dept/page?current=${p.current}&size=${p.size}`;
+                const res = await fetch(url, { headers: getHeaders() });
+                const result = await res.json();
+                if (result.code === 200) {
+                    p.total = result.data.pages; p.current = result.data.current;
+                    tbody.innerHTML = result.data.records.length ? result.data.records.map(d => `<tr><td>${d.id}</td><td>${d.name||''}</td><td>${d.leader||''}</td><td>${d.phone||''}</td><td>${d.email||''}</td><td><span class="status-badge ${d.status===1?'status-enabled':'status-disabled'}">${d.status===1?'启用':'禁用'}</span></td><td><div class="action-btns"><button class="action-btn btn-edit" onclick="editDept(${d.id})">编辑</button><button class="action-btn btn-delete" onclick="deleteDept(${d.id})">删除</button></div></td></tr>`).join('') : '<tr><td colspan="7" class="empty-data">暂无数据</td></tr>';
+                    updatePagination('dept');
+                }
+            } catch(e) { tbody.innerHTML = '<tr><td colspan="7" class="empty-data">加载失败</td></tr>'; }
+        }
+        async function loadPosts() {
+            const p = modulePages.post, tbody = document.getElementById('postTableBody');
+            try {
+                const url = `${API_BASE_URL}/system/post/page?current=${p.current}&size=${p.size}`;
+                const res = await fetch(url, { headers: getHeaders() });
+                const result = await res.json();
+                if (result.code === 200) {
+                    p.total = result.data.pages; p.current = result.data.current;
+                    tbody.innerHTML = result.data.records.length ? result.data.records.map(p => `<tr><td>${p.id}</td><td>${p.code||''}</td><td>${p.name||''}</td><td>${p.description||''}</td><td><span class="status-badge ${p.status===1?'status-enabled':'status-disabled'}">${p.status===1?'启用':'禁用'}</span></td><td>${formatDate(p.createTime)}</td><td><div class="action-btns"><button class="action-btn btn-edit" onclick="editPost(${p.id})">编辑</button><button class="action-btn btn-delete" onclick="deletePost(${p.id})">删除</button></div></td></tr>`).join('') : '<tr><td colspan="7" class="empty-data">暂无数据</td></tr>';
+                    updatePagination('post');
+                }
+            } catch(e) { tbody.innerHTML = '<tr><td colspan="7" class="empty-data">加载失败</td></tr>'; }
+        }
+        function updatePagination(m) {
+            const p = modulePages[m];
+            document.getElementById(`${m}PageInfo`).textContent = `第 ${p.current} 页 / 共 ${p.total} 页`;
+            document.getElementById(`${m}PrevBtn`).disabled = p.current <= 1;
+            document.getElementById(`${m}NextBtn`).disabled = p.current >= p.total;
+        }
+        function prevPage(m) { if (modulePages[m].current > 1) { modulePages[m].current--; if(m==='user')loadUsers(); else if(m==='role')loadRoles(); else if(m==='menu')loadMenus(); else if(m==='dept')loadDepts(); else if(m==='post')loadPosts(); } }
+        function nextPage(m) { if (modulePages[m].current < modulePages[m].total) { modulePages[m].current++; if(m==='user')loadUsers(); else if(m==='role')loadRoles(); else if(m==='menu')loadMenus(); else if(m==='dept')loadDepts(); else if(m==='post')loadPosts(); } }
+        function searchUsers() { modulePages.user.current=1; loadUsers(); }
+        function searchRoles() { modulePages.role.current=1; loadRoles(); }
+        function searchMenus() { modulePages.menu.current=1; loadMenus(); }
+        function searchDepts() { modulePages.dept.current=1; loadDepts(); }
+        function searchPosts() { modulePages.post.current=1; loadPosts(); }
+        function openModal(m, id=null) { document.getElementById(`${m}Modal`).classList.add('show'); document.getElementById(`${m}ModalTitle`).textContent=id?'编辑':'新增'; if(!id) document.getElementById(`${m}Form`).reset(), document.getElementById(`${m}Id`).value=''; }
+        function closeModal(m) { document.getElementById(`${m}Modal`).classList.remove('show'); }
+        async function saveUser() {
+            const id = document.getElementById('userId').value;
+            const data = { username:document.getElementById('username').value, nickname:document.getElementById('nickname').value, email:document.getElementById('email').value, phone:document.getElementById('phone').value, status:parseInt(document.getElementById('status').value) };
+            try {
+                const res = await fetch(`${API_BASE_URL}/system/user${id?'/'+id:''}`, { method:id?'PUT':'POST', headers:getHeaders(), body:JSON.stringify(data) });
+                const result = await res.json();
+                if (result.code === 200) { closeModal('user'); loadUsers(); } else alert(result.message||'操作失败');
+            } catch(e) { alert('网络错误'); }
         }
         async function editUser(id) {
-            try {
-                const response = await fetch(`${API_BASE_URL}/system/user/${id}`, { headers: getHeaders() });
-                const result = await response.json();
-                if (result.code === 200) {
-                    const user = result.data;
-                    document.getElementById('userId').value = user.id;
-                    document.getElementById('username').value = user.username || '';
-                    document.getElementById('nickname').value = user.nickname || '';
-                    document.getElementById('email').value = user.email || '';
-                    document.getElementById('phone').value = user.phone || '';
-                    document.getElementById('status').value = user.status;
-                    openModal('user', id);
-                }
-            } catch (error) { console.error('获取用户信息失败:', error); }
+            const res = await fetch(`${API_BASE_URL}/system/user/${id}`, { headers:getHeaders() });
+            const result = await res.json();
+            if (result.code === 200) {
+                const u = result.data;
+                document.getElementById('userId').value=u.id; document.getElementById('username').value=u.username||''; document.getElementById('nickname').value=u.nickname||''; document.getElementById('email').value=u.email||''; document.getElementById('phone').value=u.phone||''; document.getElementById('status').value=u.status;
+                openModal('user',id);
+            }
         }
-        async function deleteUser(id) { if (!confirm('确定要删除该用户吗？')) return; try { const response = await fetch(`${API_BASE_URL}/system/user/${id}`, { method: 'DELETE', headers: getHeaders() }); const result = await response.json(); if (result.code === 200) { loadUsers(); } else { alert(result.message || '删除失败'); } } catch (error) { console.error('删除用户失败:', error); } }
-        function formatDate(dateStr) { if (!dateStr) return '-'; const date = new Date(dateStr); return date.toLocaleString('zh-CN', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' }); }
-        function logout() { localStorage.removeItem('token'); localStorage.removeItem('username'); localStorage.removeItem('userId'); window.location.href = 'index.html'; }
+        async function deleteUser(id) { if(!confirm('确定删除?'))return; const res=await fetch(`${API_BASE_URL}/system/user/${id}`,{method:'DELETE',headers:getHeaders()}); const r=await res.json(); if(r.code===200)loadUsers(); else alert(r.message);}
+        async function saveRole() {
+            const id = document.getElementById('roleId').value;
+            const data = { code:document.getElementById('roleCode').value, name:document.getElementById('roleName').value, description:document.getElementById('roleDescription').value, status:parseInt(document.getElementById('roleStatus').value) };
+            try { const res = await fetch(`${API_BASE_URL}/system/role${id?'/'+id:''}`, { method:id?'PUT':'POST', headers:getHeaders(), body:JSON.stringify(data) }); const result = await res.json(); if (result.code === 200) { closeModal('role'); loadRoles(); } else alert(result.message||'操作失败'); } catch(e) { alert('网络错误'); }
+        }
+        async function editRole(id) { const res=await fetch(`${API_BASE_URL}/system/role/${id}`,{headers:getHeaders()}); const result=await res.json(); if(result.code===200){const r=result.data;document.getElementById('roleId').value=r.id;document.getElementById('roleCode').value=r.code||'';document.getElementById('roleName').value=r.name||'';document.getElementById('roleDescription').value=r.description||'';document.getElementById('roleStatus').value=r.status;openModal('role',id);}}
+        async function deleteRole(id) { if(!confirm('确定删除?'))return; const res=await fetch(`${API_BASE_URL}/system/role/${id}`,{method:'DELETE',headers:getHeaders()}); const r=await res.json(); if(r.code===200)loadRoles(); else alert(r.message);}
+        async function saveMenu() {
+            const id = document.getElementById('menuId').value;
+            const data = { name:document.getElementById('menuName').value, path:document.getElementById('menuPath').value, component:document.getElementById('menuComponent').value, permission:document.getElementById('menuPermission').value, sort:parseInt(document.getElementById('menuSort').value)||0 };
+            try { const res = await fetch(`${API_BASE_URL}/system/menu${id?'/'+id:''}`, { method:id?'PUT':'POST', headers:getHeaders(), body:JSON.stringify(data) }); const result = await res.json(); if (result.code === 200) { closeModal('menu'); loadMenus(); } else alert(result.message||'操作失败'); } catch(e) { alert('网络错误'); }
+        }
+        async function editMenu(id) { const res=await fetch(`${API_BASE_URL}/system/menu/${id}`,{headers:getHeaders()}); const result=await res.json(); if(result.code===200){const m=result.data;document.getElementById('menuId').value=m.id;document.getElementById('menuName').value=m.name||'';document.getElementById('menuPath').value=m.path||'';document.getElementById('menuComponent').value=m.component||'';document.getElementById('menuPermission').value=m.permission||'';document.getElementById('menuSort').value=m.sort||0;openModal('menu',id);}}
+        async function deleteMenu(id) { if(!confirm('确定删除?'))return; const res=await fetch(`${API_BASE_URL}/system/menu/${id}`,{method:'DELETE',headers:getHeaders()}); const r=await res.json(); if(r.code===200)loadMenus(); else alert(r.message);}
+        async function saveDept() {
+            const id = document.getElementById('deptId').value;
+            const data = { name:document.getElementById('deptName').value, leader:document.getElementById('deptLeader').value, phone:document.getElementById('deptPhone').value, email:document.getElementById('deptEmail').value, status:parseInt(document.getElementById('deptStatus').value) };
+            try { const res = await fetch(`${API_BASE_URL}/system/dept${id?'/'+id:''}`, { method:id?'PUT':'POST', headers:getHeaders(), body:JSON.stringify(data) }); const result = await res.json(); if (result.code === 200) { closeModal('dept'); loadDepts(); } else alert(result.message||'操作失败'); } catch(e) { alert('网络错误'); }
+        }
+        async function editDept(id) { const res=await fetch(`${API_BASE_URL}/system/dept/${id}`,{headers:getHeaders()}); const result=await res.json(); if(result.code===200){const d=result.data;document.getElementById('deptId').value=d.id;document.getElementById('deptName').value=d.name||'';document.getElementById('deptLeader').value=d.leader||'';document.getElementById('deptPhone').value=d.phone||'';document.getElementById('deptEmail').value=d.email||'';document.getElementById('deptStatus').value=d.status;openModal('dept',id);}}
+        async function deleteDept(id) { if(!confirm('确定删除?'))return; const res=await fetch(`${API_BASE_URL}/system/dept/${id}`,{method:'DELETE',headers:getHeaders()}); const r=await res.json(); if(r.code===200)loadDepts(); else alert(r.message);}
+        async function savePost() {
+            const id = document.getElementById('postId').value;
+            const data = { code:document.getElementById('postCode').value, name:document.getElementById('postName').value, description:document.getElementById('postDescription').value, status:parseInt(document.getElementById('postStatus').value) };
+            try { const res = await fetch(`${API_BASE_URL}/system/post${id?'/'+id:''}`, { method:id?'PUT':'POST', headers:getHeaders(), body:JSON.stringify(data) }); const result = await res.json(); if (result.code === 200) { closeModal('post'); loadPosts(); } else alert(result.message||'操作失败'); } catch(e) { alert('网络错误'); }
+        }
+        async function editPost(id) { const res=await fetch(`${API_BASE_URL}/system/post/${id}`,{headers:getHeaders()}); const result=await res.json(); if(result.code===200){const p=result.data;document.getElementById('postId').value=p.id;document.getElementById('postCode').value=p.code||'';document.getElementById('postName').value=p.name||'';document.getElementById('postDescription').value=p.description||'';document.getElementById('postStatus').value=p.status;openModal('post',id);}}
+        async function deletePost(id) { if(!confirm('确定删除?'))return; const res=await fetch(`${API_BASE_URL}/system/post/${id}`,{method:'DELETE',headers:getHeaders()}); const r=await res.json(); if(r.code===200)loadPosts(); else alert(r.message);}
+        function formatDate(d) { if(!d)return'-'; return new Date(d).toLocaleString('zh-CN'); }
+        function logout() { localStorage.clear(); window.location.href='index.html'; }
     </script>
 </body>
 </html>

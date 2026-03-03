@@ -1,0 +1,28 @@
+scaffold/
+├── src/main/java/com/company/scaffold/
+│   ├── common/              # 公共组件
+│   │   ├── annotation/     # 自定义注解 (@RequirePermission)
+│   │   ├── constant/        # 常量定义
+│   │   └── core/            # 核心(结果封装、异常处理)
+│   ├── config/              # 配置类 (Security, Redis, MyBatis, Swagger)
+│   ├── module/system/       # 系统模块
+│   │   ├── controller/     # 7个控制器
+│   │   ├── entity/         # 6个实体
+│   │   ├── mapper/         # 6个Mapper
+│   │   ├── service/        # 服务接口和实现
+│   │   └── vo/             # 5个VO
+│   ├── security/           # 安全组件 (JWT, Filter)
+│   └── ScaffoldApplication.java
+├── src/main/resources/
+│   ├── db/migration/       # Flyway数据库迁移 (12个脚本)
+│   ├── static/             # 前端页面
+│   ├── application.yml      # 主配置
+│   ├── application-dev.yml  # 开发环境
+│   └── application-prod.yml # 生产环境
+├── .github/workflows/      # CI/CD配置
+├── Dockerfile              # Docker构建
+├── docker-compose.yml     # 容器编排
+├── nginx.conf             # Nginx配置
+├── deploy.sh              # 云服务器部署脚本
+├── pom.xml                # Maven配置
+└── README.md              # 项目文档

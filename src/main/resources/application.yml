@@ -85,7 +85,7 @@ metrics:
     application: ${spring.application.name}
   export:
     prometheus:
-      enabled: true
+      enabled: false
     elastic:
-      enabled: true
+      enabled: false
       host: http://elasticsearch:9200
